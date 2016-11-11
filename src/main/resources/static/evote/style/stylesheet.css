@@ -1,0 +1,47 @@
+body {
+    background: url("Wash_DC.jpg") no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+div.main {
+    width: 100%;
+    text-align: center;
+
+}
+
+h1 {
+    margin: 2%;
+    font-size: 212px;
+    color: #888888;
+    font-family: mono, Verdana, Tahoma, sans-serif;
+    text-shadow: 2px 2px 5px black;
+}
+
+input.main {
+    margin-top: 11%;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+input.main:hover {
+    background-color: #555555;
+    color: white;
+}
+
+p.main {
+    color: white;
+    font-style: italic;
+    margin: 4%;
+}
