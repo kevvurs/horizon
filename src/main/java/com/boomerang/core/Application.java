@@ -5,19 +5,23 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Arrays;
 
 @SpringBootApplication
+@ComponentScan("com.boomerang")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     // LEGACY @https://github.com/spring-guides/gs-spring-boot/blob/master/complete/src/main/java/hello/Application.java
+    /*
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
+        
+    	return args -> {
 
             System.out.println("Let's inspect the beans provided by Spring Boot:");
 
@@ -29,4 +33,5 @@ public class Application {
 
         };
     }
+    */
 }
