@@ -29,5 +29,5 @@ $( "#evote_listing" ).hover(
 );
 
 $( "#evote_tile" ).click(function() {
-    window.location.href = "evote/index.html";
+    window.location.href = "evote/roadmap.html";
 });
