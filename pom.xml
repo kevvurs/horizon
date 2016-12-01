@@ -16,20 +16,25 @@
 
     <dependencies>
     	<dependency>
-  			<groupId>mysql</groupId>
-  			<artifactId>mysql-connector-java</artifactId>
-  			<version>6.0.5</version>
-		</dependency>
-		<dependency>
+  		<groupId>mysql</groupId>
+  		<artifactId>mysql-connector-java</artifactId>
+  		<version>6.0.5</version>
+	</dependency>
+	<dependency>
+		<groupId>com.google.cloud.sql</groupId>
+    		<artifactId>mysql-socket-factory</artifactId>
+    		<version>1.0.2</version>
+	</dependency>
+	<dependency>
       		<groupId>com.google.cloud.sql</groupId>
       		<artifactId>mysql-socket-factory</artifactId>
       		<version>1.0.2</version>
     	</dependency>
-		<!-- Parent POM defines ${appengine.sdk.version} (updates frequently). -->
-		<dependency>
-  			<groupId>com.google.appengine</groupId>
-  			<artifactId>appengine-api-1.0-sdk</artifactId>
-		</dependency>
+	<!-- Parent POM defines ${appengine.sdk.version} (updates frequently). -->
+	<dependency>
+  		<groupId>com.google.appengine</groupId>
+  		<artifactId>appengine-api-1.0-sdk</artifactId>
+	</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -75,6 +80,10 @@
                 <groupId>com.google.appengine</groupId>
                 <artifactId>gcloud-maven-plugin</artifactId>
                 <version>2.0.9.106.v20160420</version>
+		<configuration>
+			<promote>true</promote>
+			<gcloud_project>boomerang-686</gcloud_project>
+		</configuration>
             </plugin>
         </plugins>
     </build>

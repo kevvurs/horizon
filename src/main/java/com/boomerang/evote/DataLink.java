@@ -19,25 +19,28 @@ import com.google.cloud.sql.jdbc.Statement;
 public class DataLink {
 	private static final Logger LOG = Logger.getLogger(DataLink.class);
 	private boolean driverCompiled;
-	
+
 	//SQL statements
 	private static final String showTables = "SHOW TABLES";
-	
+
 	@Value("${ae-cloudsql.datasource.driver-class-name}")
 	String driverClass;
-	
+
 	@Value("${ae-cloudsql.datasource.database-url}")
 	String databaseUrl;
-	
+
+	@Value("${ae-cloudsql.datasource.socket-url}")
+	String socketUrl;
+
 	public DataLink() {
 		LOG.info("Instantiated DataLink");
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		this.driverCompiled = runDriver();
 	}
-	
+
 	private boolean runDriver() {
 		boolean success = false;
 		try {
@@ -48,12 +51,12 @@ public class DataLink {
 		}
 		return success;
 	}
-	
+
 	public String touch() {
 		LOG.info("Touching DB");
 		StringBuilder postInfo = new StringBuilder();
 		try {
-			Connection connection = (Connection) DriverManager.getConnection(databaseUrl);
+			Connection connection = (Connection) DriverManager.getConnection(socketUrl);
 			Statement statement = connection.createStatement();
 			ResultSet res = statement.executeQuery(showTables);
 			ResultSetMetaData md = res.getMetaData();
@@ -67,7 +70,7 @@ public class DataLink {
 			return postInfo.toString();
 		} catch (SQLException e) {
 			LOG.error(e);
-			return "NULL";
+			return e.getMessage();
 		}
 	}
 }
