@@ -84,7 +84,7 @@
 					<promote>true</promote>
 					<gcloud_project>boomerang-686</gcloud_project>
 					<log_level>info</log_level>
-					<version>snow-1.1</version>
+					<version>snow-1.2</version>
 				</configuration>
             </plugin>
         </plugins>

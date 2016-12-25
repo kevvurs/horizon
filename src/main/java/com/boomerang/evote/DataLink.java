@@ -26,7 +26,10 @@ public class DataLink {
 
 	@Value("${spring.datasource.url}")
 	String url;
-
+	
+	@Value("${spring.datasource.link}")
+	String link;
+	
 	public DataLink() {
 		LOG.info("Instantiated DataLink");
 	}
@@ -36,7 +39,7 @@ public class DataLink {
 		StringBuilder message = new StringBuilder();
 		Connection cloudSQL = null;
 		try {
-			cloudSQL = openConnection();
+			cloudSQL = altConnection();
 			Statement query = cloudSQL.createStatement();
 			ResultSet resultSet = query.executeQuery(SHOW_TABLES);
 			while (resultSet.next()) {
@@ -54,6 +57,10 @@ public class DataLink {
 	
 	private Connection openConnection() throws SQLException {
 		return DriverManager.getConnection(url, username, password);
+	}
+	
+	private Connection altConnection() throws SQLException {
+		return DriverManager.getConnection(link);
 	}
 	
 	private void closeConnection(Connection connection) throws SQLException {
