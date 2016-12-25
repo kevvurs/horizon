@@ -1,76 +1,63 @@
 package com.boomerang.evote;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.annotation.PostConstruct;
+import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import com.google.cloud.sql.jdbc.Connection;
-import com.google.cloud.sql.jdbc.ResultSet;
-import com.google.cloud.sql.jdbc.ResultSetMetaData;
-import com.google.cloud.sql.jdbc.Statement;
-//import com.mysql.jdbc.Driver;
 
 @Repository
 public class DataLink {
 	private static final Logger LOG = Logger.getLogger(DataLink.class);
-	private boolean driverCompiled;
 
 	//SQL statements
-	private static final String showTables = "SHOW TABLES";
+	private static final String SHOW_TABLES = "SHOW TABLES";
 
-	@Value("${ae-cloudsql.datasource.driver-class-name}")
-	String driverClass;
+	@Value("${spring.datasource.username}")
+	String username;
 
-	@Value("${ae-cloudsql.datasource.database-url}")
-	String databaseUrl;
+	@Value("${spring.datasource.password}")
+	String password;
 
-	@Value("${ae-cloudsql.datasource.socket-url}")
-	String socketUrl;
+	@Value("${spring.datasource.url}")
+	String url;
 
 	public DataLink() {
 		LOG.info("Instantiated DataLink");
 	}
-
-	@PostConstruct
-	public void init() {
-		this.driverCompiled = runDriver();
-	}
-
-	private boolean runDriver() {
-		boolean success = false;
-		try {
-			Class.forName(driverClass);
-			success = true;
-		} catch (Exception e) {
-			LOG.warn("Error running Google Cloud SQL driver -" + e);
-		}
-		return success;
-	}
-
+	
 	public String touch() {
 		LOG.info("Touching DB");
-		StringBuilder postInfo = new StringBuilder();
+		StringBuilder message = new StringBuilder();
+		Connection cloudSQL = null;
 		try {
-			Connection connection = (Connection) DriverManager.getConnection(socketUrl);
-			Statement statement = connection.createStatement();
-			ResultSet res = statement.executeQuery(showTables);
-			ResultSetMetaData md = res.getMetaData();
-			while (res.next()) {
-				for (int i = 1; i <= md.getColumnCount(); i++) {
-					postInfo.append('[');
-					postInfo.append(res.getString(i));
-					postInfo.append(']');
-				}
+			cloudSQL = openConnection();
+			Statement query = cloudSQL.createStatement();
+			ResultSet resultSet = query.executeQuery(SHOW_TABLES);
+			while (resultSet.next()) {
+				message.append(resultSet.getString(1));
+				message.append(System.lineSeparator());
 			}
-			return postInfo.toString();
-		} catch (SQLException e) {
-			LOG.error(e);
-			return e.getMessage();
+			closeConnection(cloudSQL);
+		} catch(SQLException e) {
+			LOG.error("Google Cloud SQL Connection not established- " + e);
+			message.append(e.getStackTrace());
+		}
+		return message.toString();
+	}
+	
+	private Connection openConnection() throws SQLException {
+		return DriverManager.getConnection(url,username,password);
+	}
+	
+	private void closeConnection(Connection connection) throws SQLException {
+		if (connection != null) {
+			connection.close();
 		}
 	}
 }
