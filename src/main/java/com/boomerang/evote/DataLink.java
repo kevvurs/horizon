@@ -49,8 +49,11 @@ public class DataLink {
 			closeConnection(cloudSQL);
 		} catch(SQLException e) {
 			LOG.error("Google Cloud SQL Connection not established- " + e);
-			e.printStackTrace();
-			message.append(e.getStackTrace());
+			StackTraceElement[] trace = e.getStackTrace();
+			for (int i = 0; i < trace.length; i ++) {
+				message.append(trace[i]);
+				message.append(System.lineSeparator());
+			}
 		}
 		return message.toString();
 	}
