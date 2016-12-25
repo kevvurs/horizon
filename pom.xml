@@ -19,11 +19,11 @@
     	<dependency>
   		<groupId>mysql</groupId>
   		<artifactId>mysql-connector-java</artifactId>
-  		<version>5.1.39</version>
+  		<version>6.0.4</version>
 	</dependency>
 	<dependency>
 		<groupId>com.google.cloud.sql</groupId>
-   		<artifactId>mysql-socket-factory</artifactId>
+   		<artifactId>mysql-socket-factory-connector-j-6</artifactId>
    		<version>1.0.2</version>
 	</dependency>
 	<!-- $ gcloud auth application-default login -->
@@ -41,12 +41,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- tag::actuator[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- end::actuator[] -->
         <!-- tag::tests[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -86,7 +84,7 @@
 					<promote>true</promote>
 					<gcloud_project>boomerang-686</gcloud_project>
 					<log_level>info</log_level>
-					<version>SNOWv1.0</version>
+					<version>snow-1.1</version>
 				</configuration>
             </plugin>
         </plugins>
