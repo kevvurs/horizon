@@ -36,7 +36,6 @@ public class DataLink {
 		StringBuilder message = new StringBuilder();
 		Connection cloudSQL = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
 			cloudSQL = openConnection();
 			Statement query = cloudSQL.createStatement();
 			ResultSet resultSet = query.executeQuery(SHOW_TABLES);
@@ -45,15 +44,16 @@ public class DataLink {
 				message.append(System.lineSeparator());
 			}
 			closeConnection(cloudSQL);
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch(SQLException e) {
 			LOG.error("Google Cloud SQL Connection not established- " + e);
+			e.printStackTrace();
 			message.append(e.getStackTrace());
 		}
 		return message.toString();
 	}
 	
 	private Connection openConnection() throws SQLException {
-		return DriverManager.getConnection(url,username,password);
+		return DriverManager.getConnection(url, username, password);
 	}
 	
 	private void closeConnection(Connection connection) throws SQLException {
